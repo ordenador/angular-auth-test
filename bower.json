@@ -1,0 +1,9 @@
+{
+  "name": "myl-frontend",
+  "version": "1.0.0",
+  "description": "Mitos y leyendas Deckbuilder - test login",
+  "dependencies": {
+    "angular": "~1.3.0",
+    "bootstrap": "~3.3.1"
+  }
+}
