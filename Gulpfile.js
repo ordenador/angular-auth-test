@@ -51,7 +51,7 @@ gulp.task('html', function() {
 // Busca en las carpetas de estilos y javascript los archivos que hayamos creado
 // para inyectarlos en el index.html
 gulp.task('inject', function() {
-  var sources = gulp.src(['./public/js/min/*.min.js','./public/stylesheets/**/*.css']);
+  var sources = gulp.src(['./public/js/*.js','./public/stylesheets/**/*.css']);
   return gulp.src('index.html', {cwd: './public'})
     .pipe(inject(sources, {
       read: false,
@@ -86,10 +86,10 @@ gulp.task('watch', function() {
   gulp.watch(['./public/stylesheets/**/*.styl'], ['css']);
   gulp.watch(['./public/js/**/*.js', './Gulpfile.js', '!./public/js/min/all*.js'], ['jshint']);
   gulp.watch(['./public/stylesheets/**/*.styl'], ['css', 'inject']);
-  gulp.watch(['./public/js/**/*.js', './Gulpfile.js', '!./public/js/min/all*.js'], ['inject']);
+  gulp.watch(['./public/js/**/*.js', './Gulpfile.js', '!./public/js/*.js'], ['inject']);
   gulp.watch(['./bower.json'], ['wiredep']);
-  gulp.watch(['./public/js/*.js'], ['wiredep']);
-  gulp.watch(['./public/js/*.js'], ['scripts']);
+  gulp.watch(['./public/lib/**/*.js'], ['wiredep']);
+  /*gulp.watch(['./public/js/*.js'], ['scripts']);*/
 });
 
 gulp.task('default', ['server', 'inject','wiredep', 'watch']);
