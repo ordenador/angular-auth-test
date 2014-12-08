@@ -1,5 +1,6 @@
 (function () {
-  var app = angular.module('myl', ['myl.controllers', 'myl.services', 'ngResource']);
+	'use strict';
+  var app = angular.module('myl', ['myl.controllers', 'myl.services', 'ngResource', 'ngCookies']);
 
   app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.useXDomain = true;

@@ -4,9 +4,7 @@
   "description": "Mitos y leyendas Deckbuilder - test login",
   "dependencies": {
     "angular": "~1.3.0",
-    "bootstrap": "~3.3.1"
-  },
-  "devDependencies": {
+    "bootstrap": "~3.3.1",
     "angular-resource": "~1.3.5"
   }
 }
