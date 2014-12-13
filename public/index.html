@@ -20,23 +20,7 @@
 
   <body>
 
-    <div class="container" ng-controller="authController">
-
-      <form class="form-signin" role="form" ng-submit="login()" name="loginForm">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input ng-model="model.username" id="inputEmail" class="form-control" placeholder="Nombre" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input ng-model="model.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
-
-      <button class="btn btn-lg btn-primary btn-block" ng-click="getUser()">Get User</button>
+    <div class="container" ng-view>
     </div>
 
     <!--[if lt IE 8]>
@@ -59,6 +43,7 @@
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="lib/angular-resource/angular-resource.js"></script>
     <script src="lib/angular-cookies/angular-cookies.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
     <!-- endbower -->
     <!-- inject:js -->
     <script src="/js/app.js"></script>

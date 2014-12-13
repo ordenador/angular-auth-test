@@ -17,7 +17,7 @@ var gulp = require('gulp'),
 gulp.task('server', function() {
     connect.server({
         root: './public',
-        hostname: '0.0.0.0',
+        hostname: '127.0.0.1',
         port: 8080,
         livereload: true,
         middleware: function(connect, opt) {
@@ -86,7 +86,7 @@ gulp.task('watch', function() {
   gulp.watch(['./public/stylesheets/**/*.styl'], ['css']);
   gulp.watch(['./public/js/**/*.js', './Gulpfile.js', '!./public/js/min/all*.js'], ['jshint']);
   gulp.watch(['./public/stylesheets/**/*.styl'], ['css', 'inject']);
-  gulp.watch(['./public/js/**/*.js', './Gulpfile.js', './public/js/*.js'], ['inject']);
+  gulp.watch(['./public/js/**/*.js', '!./public/js/min/*', './Gulpfile.js', './public/js/*.js'], ['inject']);
   gulp.watch(['./bower.json'], ['wiredep']);
   gulp.watch(['./public/lib/**/*.js'], ['wiredep']);
   /*gulp.watch(['./public/js/*.js'], ['scripts']);*/
