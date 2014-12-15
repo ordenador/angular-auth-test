@@ -1,6 +1,6 @@
 (function (){
 	'use strict';
-	angular.module('myl.controllers', [])
+	angular.module('auth-ordenador.controllers', [])
 
 	.controller('authController', ['authService', '$scope', function (authService, $scope) {
 		$scope.model = {'username':'','password':''};
@@ -16,21 +16,14 @@
 		$scope.getUser = function () {
 			return authService.profile();
 		};
-
-		$scope.authenticated = authService.authenticationStatus();
 		
-		// $scope.getUser = function(){
-		// 	$http.defaults.headers.common.Authorization = 'Token fce4a0c4da639e7ca1a10b5b1390cf69ed7478d1';
-		// 	authService.getUser().$promise.then(
-		// 		function(data){
-		// 			$http.defaults.headers.common.Authorization = 'Token ' + data.key;
-		// 			$cookies.token = data.key;
-		// 		},
-		// 		function(error){
-		// 			console.log(error.status);
-		// 			console.log(error.data.non_field_errors);
-		// 		});
-		// };
+		$scope.getCookies = function (){
+			return authService.getCookies();
+		};
+
+		$scope.authenticatedStatus = function(){
+			return authService.authenticatedStatus();
+		};
 
 	}]);
 })();

@@ -1,8 +1,8 @@
 (function () {
 	'use strict';
-  var app = angular.module('myl', ['myl.controllers', 'myl.services', 'ngResource', 'ngCookies', 'ngRoute']);
+  var app = angular.module('auth-ordenador', ['auth-ordenador.controllers', 'auth-ordenador.services', 'ngResource', 'ngCookies', 'ui.router']);
 
-  app.config(['$httpProvider', '$routeProvider',function ($httpProvider, $routeProvider) {
+  app.config(['$httpProvider', '$stateProvider','$urlRouterProvider',function ($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
@@ -10,39 +10,45 @@
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 
-    $routeProvider
-      .when('/', {
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+      .state('main', {
+        url: '/main',
         templateUrl: 'view/main.html',
         controller: 'authController',
-        // resolve: {
-        //   authenticated: ['authService', function(authService){
-        //     return authService.authenticationStatus();
-        //   }],
-        // }
+        data: {
+          requiresLogin: false,
+        }
       })
-      .otherwise({
-        redirectTo: '/'
+      .state('private', {
+        url: '/private',
+        templateUrl: 'view/private.html',
+        data: {
+          requiresLogin: true,
+        }
       });
 
     }]);
 
-  // app.run(['$rootScope', '$location', '$cookieStore', '$http', 'tabsService',
-  //   function ($rootScope, $location, $cookieStore, $http, tabsService) {
-  //       // keep user logged in after page refresh
-  //       $rootScope.globals = $cookieStore.get('globals') || {};
-  //       if ($rootScope.globals.currentUser) {
-  //           $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
-  //           var tabTest = { title: $rootScope.globals.currentUser.username, link: '/login'};
-  //           tabsService.login(tabTest);
-  //       }
+  app.run(['$rootScope', '$http', '$location', '$state', 'authService', function ($rootScope, $http, $location, $state, authService) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 
-  //       // $rootScope.$on('$routeChangeStart', function (event, next, current) {
-  //       //     // redirect to login page if not logged in
-  //       //     if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
-  //       //         $location.path('/login');
-  //       //     }
-  //       // });
-  //   }]);
+      if (authService.getCookies()){
+        $http.defaults.headers.common.Authorization = 'Token ' + authService.getCookies();
+      }
+
+      if (toState.data && toState.data.requiresLogin){
+        // User isn’t authenticated
+        authService.isAuthenticated().catch(
+          function(error){
+            event.preventDefault();
+            $state.go('main');
+          });
+      }
+    });
+
+  }]);
 
 
 })();
