@@ -2,7 +2,7 @@
 	'use strict';
 	angular.module('auth-ordenador.controllers', [])
 
-	.controller('authController', ['authService', '$scope', function (authService, $scope) {
+	.controller('authController', ['authService', '$scope',function (authService, $scope) {
 		$scope.model = {'username':'','password':''};
 
 		$scope.login = function () {

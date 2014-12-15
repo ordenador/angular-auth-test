@@ -17,17 +17,18 @@
 		);
 	}])
 
-	.factory('authService', ['restService', '$http', '$cookies', '$q', function (restService, $http, $cookies, $q) {
+	.factory('authService', ['restService', '$http', '$cookies', '$q', '$rootScope', function (restService, $http, $cookies, $q, $rootScope) {
 
-		var authenticated = null;
+		$rootScope.authenticated = null;
 		var userProfile = {};
+
 
 		function login (userData) {
 			return restService.login(userData).$promise.then(
 				function(data){
 					$http.defaults.headers.common.Authorization = 'Token ' + data.key;
 					$cookies.token = data.key;
-					authenticated = true;
+					$rootScope.authenticated = true;
 				},
 				function(error){
 					console.log(error.status);
@@ -40,7 +41,7 @@
 				function(){
 					delete $http.defaults.headers.common.Authorization;
 					delete $cookies.token;
-					authenticated = false;
+					$rootScope.authenticated = false;
 				},
 				function(error){
 					console.log(error.status);
@@ -57,7 +58,7 @@
 				function(error){
 					console.log(error.status);
 					console.log(error.data.non_field_errors);
-					authenticated = false;
+					$rootScope.authenticated = false;
 				});
 		}
 
@@ -67,7 +68,6 @@
 
 		function isAuthenticated(){
 			var header = $http.defaults.headers.common.Authorization;
-			var da = this;
 			var getAuthStatus = $q.defer();
 			if (header){
 				restService.getUser().$promise.then(
@@ -76,22 +76,18 @@
 						userProfile.email = data.email;
 						userProfile.first_name = data.first_name;
 						userProfile.last_name = data.last_name;
-						da.authenticated = true;
+						$rootScope.authenticated = true;
 						getAuthStatus.resolve('User logged');
 					},
 					function(error){
-						da.authenticated = false;
+						$rootScope.authenticated = false;
 						getAuthStatus.reject('User is not logged in: ' + error.status);
 					});
 			} else {
-				da.authenticated = false;
+				$rootScope.authenticated = false;
 				getAuthStatus.reject('User is not logged in.');
 			}
 			return getAuthStatus.promise;
-		}
-
-		function authenticatedStatus(){
-			return authenticated;
 		}
 
 		return{
@@ -100,7 +96,6 @@
 			profile: profile,
 			getCookies: getCookies,
 			isAuthenticated: isAuthenticated,
-			authenticatedStatus: authenticatedStatus,
 		};
 	}]);
 

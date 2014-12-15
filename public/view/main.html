@@ -12,6 +12,6 @@
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>
 
-<button class="btn btn-lg btn-primary btn-block" ng-click="logout()">logout</button>
+<button ng-show="authenticated" class="btn btn-lg btn-primary btn-block" ng-click="logout()">logout</button>
 <button class="btn btn-lg btn-primary btn-block" ng-click="getUser()">Get User Profile</button>
 Token {{getCookies()}}

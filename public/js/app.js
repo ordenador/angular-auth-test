@@ -36,6 +36,10 @@
 
       if (authService.getCookies()){
         $http.defaults.headers.common.Authorization = 'Token ' + authService.getCookies();
+        authService.isAuthenticated().then(
+          function(data){
+            console.log(data);
+          });
       }
 
       if (toState.data && toState.data.requiresLogin){
